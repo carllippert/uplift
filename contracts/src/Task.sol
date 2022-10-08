@@ -34,6 +34,12 @@ contract Uplift is ERC721 {
     string constant _name = "Uplift";
     string constant _symbol = "LIFT";
 
+    //superfluid
+    using CFAv1Library for CFAv1Library.InitData;
+
+    //initialize cfaV1 variable
+    CFAv1Library.InitData public cfaV1;
+
     //Token Contract
     EDU eduToken;
 
@@ -71,8 +77,24 @@ contract Uplift is ERC721 {
     }
 
     //initiate the token
-    constructor(address _edu_address) ERC721(_name, _symbol) {
+    constructor(address _edu_address, ISuperfluid host) ERC721(_name, _symbol) {
+        //link edu nft
         eduToken = EDU(_edu_address);
+
+        //initialize InitData struct, and set equal to cfaV1
+        cfaV1 = CFAv1Library.InitData(
+            host,
+            //here, we are deriving the address of the CFA using the host contract
+            IConstantFlowAgreementV1(
+                address(
+                    host.getAgreementClass(
+                        keccak256(
+                            "org.superfluid-finance.agreements.ConstantFlowAgreement.v1"
+                        )
+                    )
+                )
+            )
+        );
     }
 
     //tokenid -> task struct
