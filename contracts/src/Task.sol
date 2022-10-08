@@ -10,6 +10,12 @@ error NonExistantTask();
 error IncompatableStatus();
 error InsufficientEDU();
 
+import {ISuperfluid} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
+
+import {IConstantFlowAgreementV1} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/IConstantFlowAgreementV1.sol";
+
+import {CFAv1Library} from "@superfluid-finance/ethereum-contracts/contracts/apps/CFAv1Library.sol";
+
 contract Uplift is ERC721 {
     event TaskClaimed(
         uint256 indexed tokenId,
