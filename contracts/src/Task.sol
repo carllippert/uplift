@@ -74,6 +74,12 @@ contract Uplift is ERC721 {
     //employer -> cancellable funds
     mapping(address => uint256) public cancellableBalances;
 
+    //contractor -> current work rate ( how much they get done over time)
+    mapping(address => uint256) public contractorMomentums; 
+
+    //contract -> stream status
+    mapping(address => bool) public streamStatuses; 
+
     function mintTask(
         address _employer,
         address _creator,
@@ -204,6 +210,9 @@ contract Uplift is ERC721 {
 
         _ownerOf[_tokenId] = task.contractor;
 
+        //TODO: calculate status_good date
+        //some way to on the fly determine without a loop if they ahve done x tasks
+        //in the last month
         emit Transfer(task.employer, task.contractor, _tokenId);
 
         emit TaskClosed(_tokenId);
