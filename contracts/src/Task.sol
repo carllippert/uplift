@@ -3,12 +3,12 @@ pragma solidity ^0.8.13;
 
 import "solmate/tokens/ERC721.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
+import "./Edu.sol";
 
 error IncorrectFunds();
 error NonExistantTask();
 error IncompatableStatus();
-error UnAuthorized();
-error TokenIsSoulbound();
+error InsufficientEDU();
 
 contract Uplift is ERC721 {
     event TaskClaimed(
@@ -27,6 +27,9 @@ contract Uplift is ERC721 {
 
     string constant _name = "Uplift";
     string constant _symbol = "LIFT";
+
+    //Token Contract
+    EDU eduToken;
 
     enum Status {
         OPEN,
@@ -57,10 +60,14 @@ contract Uplift is ERC721 {
         address contractor;
         //who can claim
         uint256 minBalance;
+        //what do they know?
+        uint256 minEdu;
     }
 
     //initiate the token
-    constructor() ERC721(_name, _symbol) {}
+    constructor(address _edu_address) ERC721(_name, _symbol) {
+        eduToken = EDU(_edu_address);
+    }
 
     //tokenid -> task struct
     mapping(uint256 => Task) public tasks;
@@ -82,6 +89,7 @@ contract Uplift is ERC721 {
         uint256 _recruiterBounty,
         uint256 _deadline,
         uint256 _minBalance,
+        uint256 _minEdu,
         string calldata _tokenURI
     ) external payable {
         if (
@@ -102,7 +110,8 @@ contract Uplift is ERC721 {
             status: Status.OPEN,
             contractor: address(0),
             recruiter: address(0),
-            minBalance: _minBalance
+            minBalance: _minBalance,
+            minEdu: _minEdu
         });
 
         //Update Accounting
@@ -144,6 +153,11 @@ contract Uplift is ERC721 {
         //user must have sufficient balance of previous work
         if (balanceOf(msg.sender) < task.minBalance) {
             revert UnAuthorized();
+        }
+
+        //user must have sufficient education badges
+        if (eduToken.balanceOf(msg.sender) < task.minEdu) {
+            revert InsufficientEDU();
         }
 
         //update accounting
