@@ -420,8 +420,8 @@
       }
     },
     "script/Contract.s.sol": {
-      "lastModificationDate": 1665235625905,
-      "contentHash": "3642d05d9c479368231825c40aaa276a",
+      "lastModificationDate": 1665237531636,
+      "contentHash": "76e3a00700f6d9faa4c68975532a2e2f",
       "sourceName": "script/Contract.s.sol",
       "solcConfig": {
         "settings": {
@@ -458,15 +458,15 @@
       ],
       "versionRequirement": "^0.8.13",
       "artifacts": {
-        "ContractScript": {
-          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Contract.s.sol/ContractScript.json"
+        "TaskScript": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Contract.s.sol/TaskScript.json"
         }
       }
     },
-    "src/Contract.sol": {
-      "lastModificationDate": 1665237009036,
-      "contentHash": "b1b6d32eeb38698f0ba5d0f583cd1d3a",
-      "sourceName": "src/Contract.sol",
+    "src/Task.sol": {
+      "lastModificationDate": 1665237543053,
+      "contentHash": "66e3fe022dcbc003f41088f21d967be9",
+      "sourceName": "src/Task.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -500,15 +500,15 @@
       ],
       "versionRequirement": "^0.8.13",
       "artifacts": {
-        "Contract": {
-          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Contract.sol/Contract.json"
+        "Task": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Task.sol/Task.json"
         }
       }
     },
-    "test/Contract.t.sol": {
-      "lastModificationDate": 1665235625905,
-      "contentHash": "848ba83feec29a2e4d286c118102ae20",
-      "sourceName": "test/Contract.t.sol",
+    "test/Task.t.sol": {
+      "lastModificationDate": 1665237550382,
+      "contentHash": "605c547ef82182ea9fa3832e5b653f73",
+      "sourceName": "test/Task.t.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -546,8 +546,8 @@
       ],
       "versionRequirement": "^0.8.13",
       "artifacts": {
-        "ContractTest": {
-          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Contract.t.sol/ContractTest.json"
+        "TaskTest": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Task.t.sol/TaskTest.json"
         }
       }
     }
