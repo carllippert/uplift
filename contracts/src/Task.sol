@@ -10,6 +10,8 @@ error NonExistantTask();
 error IncompatableStatus();
 error InsufficientEDU();
 error IncorrectEDU();
+error NotEnoughWorkHistory();
+error NotWorkingEnough();
 
 import {ISuperfluid} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
 import {ISuperfluidToken} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluidToken.sol";
@@ -36,7 +38,7 @@ contract Uplift is ERC721 {
     string constant _name = "Uplift";
     string constant _symbol = "LIFT";
 
-    //flow rate is per second. there is an exmaple 
+    //flow rate is per second. there is an exmaple
     int96 constant SALARY_ONE_FLOW_RATE = 1000;
     int96 constant SALARY_TWO_FLOW_RATE = 2500;
 
@@ -124,6 +126,9 @@ contract Uplift is ERC721 {
     //1 -> 1000 stream
     //2 -> 2500 stream
     mapping(address => uint256) public incomeStates;
+
+    //address -> timestamps
+    mapping(address => uint256[]) public userCloseStamps;
 
     function mintTask(
         address _employer,
@@ -263,6 +268,9 @@ contract Uplift is ERC721 {
 
         _ownerOf[_tokenId] = task.contractor;
 
+        //add timestamp to array
+        (userCloseStamps[msg.sender]).push(block.timestamp);
+
         emit Transfer(task.employer, task.contractor, _tokenId);
 
         emit TaskClosed(_tokenId);
@@ -281,9 +289,21 @@ contract Uplift is ERC721 {
     //Not worthwhile for hackathon implementation imo
     //TODO: usefull to implement 712 sig in future or allow admin to initiate streams on behalf of users
     //for better web2 feel options in UI.
-    function claimSalary() public {
+    function claimSalary(address user) public {
         //user must have sufficient education badges
         uint256 edu_balance = eduToken.balanceOf(msg.sender);
+
+        if (userCloseStamps[user].length <= 10) {
+            revert NotEnoughWorkHistory();
+        }
+        //see that they have done atleast ten tasks in the last month
+        uint256 tenTasksAgoStamp = userCloseStamps[user][
+            userCloseStamps[user].length - 10
+        ];
+
+        if (tenTasksAgoStamp < block.timestamp - 30 days) {
+            revert NotWorkingEnough();
+        }
 
         if (edu_balance < 4) {
             revert IncorrectEDU();
@@ -311,6 +331,23 @@ contract Uplift is ERC721 {
         }
 
         emit StreamUpdated(msg.sender, flow);
+    }
+
+    function stopSalary(address user) external {
+        if (userCloseStamps[msg.sender].length <= 10) {
+            revert NotEnoughWorkHistory();
+        }
+        //see that they have done atleast ten tasks in the last month
+        uint256 tenTasksAgoStamp = userCloseStamps[user][
+            userCloseStamps[user].length - 10
+        ];
+
+        //if not done 10 things in last 30 days.
+        if (tenTasksAgoStamp < block.timestamp - 30 days) {
+            cfaV1.deleteFlow(address(this), user, FLOW_TOKEN);
+        }
+
+        emit StreamUpdated(user, 0);
     }
 
     //TODO: ipfs if we use it.
