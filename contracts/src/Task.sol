@@ -4,6 +4,16 @@ pragma solidity ^0.8.13;
 import "solmate/tokens/ERC721.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
 
+import { ISuperfluid } from "superfluid/contracts/interfaces/superfluid/ISuperfluid.sol"; //"@superfluid-finance/ethereum-monorepo/packages/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
+
+// import {
+//     IConstantFlowAgreementV1
+// } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/IConstantFlowAgreementV1.sol";
+
+// import {
+//     CFAv1Library
+// } from "@superfluid-finance/ethereum-contracts/contracts/apps/CFAv1Library.sol";
+
 error IncorrectFunds();
 error NonExistantTask();
 error IncompatableStatus();
@@ -75,10 +85,10 @@ contract Uplift is ERC721 {
     mapping(address => uint256) public cancellableBalances;
 
     //contractor -> current work rate ( how much they get done over time)
-    mapping(address => uint256) public contractorMomentums; 
+    mapping(address => uint256) public contractorMomentums;
 
     //contract -> stream status
-    mapping(address => bool) public streamStatuses; 
+    mapping(address => bool) public streamStatuses;
 
     function mintTask(
         address _employer,
@@ -225,6 +235,10 @@ contract Uplift is ERC721 {
         uint256
     ) public pure override {
         revert TokenIsSoulbound();
+    }
+
+    function claimSalary() public {
+        //TODO: initiate superfluid
     }
 
     //TODO: ipfs if we use it.
