@@ -2,5 +2,8 @@
   "name": "contracts",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@superfluid-finance/ethereum-contracts": "^1.4.1"
+  }
 }
