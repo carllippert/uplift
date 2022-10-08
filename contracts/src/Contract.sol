@@ -2,8 +2,11 @@
 pragma solidity ^0.8.13;
 
 import "solmate/tokens/ERC721.sol";
+import "openzeppelin-contracts/contracts/utils/Strings.sol";
 
 contract Contract is ERC721 {
+    uint256 public currentTokenId;
+
     constructor(string memory _name, string memory _symbol)
         ERC721(_name, _symbol)
     {}
