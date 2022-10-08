@@ -2,3 +2,4 @@ ds-test/=contracts/lib/forge-std/lib/ds-test/src/
 forge-std/=contracts/lib/forge-std/src/
 solmate/=contracts/lib/solmate/src/
 openzeppelin-contracts/=contracts/lib/openzeppelin-contracts/contracts/
+@superfluid-finance/=contracts/node_modules/@superfluid-finance
