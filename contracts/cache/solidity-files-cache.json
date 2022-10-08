@@ -463,10 +463,10 @@
         }
       }
     },
-    "src/Task.sol": {
-      "lastModificationDate": 1665242860015,
-      "contentHash": "ff500560332c49f77b762595a09c82b3",
-      "sourceName": "src/Task.sol",
+    "src/Edu.sol": {
+      "lastModificationDate": 1665247230769,
+      "contentHash": "b8f134c70e70ff85feff6d5101a44e49",
+      "sourceName": "src/Edu.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -497,6 +497,49 @@
         "lib/openzeppelin-contracts/contracts/utils/Strings.sol",
         "lib/openzeppelin-contracts/contracts/utils/math/Math.sol",
         "lib/solmate/src/tokens/ERC721.sol"
+      ],
+      "versionRequirement": "^0.8.13",
+      "artifacts": {
+        "EDU": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Edu.sol/EDU.json"
+        }
+      }
+    },
+    "src/Task.sol": {
+      "lastModificationDate": 1665247355756,
+      "contentHash": "b7ab8b5d5d25db8a6bf29b97ebd67bfd",
+      "sourceName": "src/Task.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/openzeppelin-contracts/contracts/utils/Strings.sol",
+        "lib/openzeppelin-contracts/contracts/utils/math/Math.sol",
+        "lib/solmate/src/tokens/ERC721.sol",
+        "src/Edu.sol"
       ],
       "versionRequirement": "^0.8.13",
       "artifacts": {
