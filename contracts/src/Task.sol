@@ -55,6 +55,8 @@ contract Uplift is ERC721 {
         address recruiter;
         //contractor
         address contractor;
+        //who can claim
+        uint256 minBalance;
     }
 
     //initiate the token
@@ -79,6 +81,7 @@ contract Uplift is ERC721 {
         uint256 _contractorBounty,
         uint256 _recruiterBounty,
         uint256 _deadline,
+        uint256 _minBalance,
         string calldata _tokenURI
     ) external payable {
         if (
@@ -98,7 +101,8 @@ contract Uplift is ERC721 {
             tokenURI: _tokenURI,
             status: Status.OPEN,
             contractor: address(0),
-            recruiter: address(0)
+            recruiter: address(0),
+            minBalance: _minBalance
         });
 
         //Update Accounting
@@ -117,6 +121,8 @@ contract Uplift is ERC721 {
         }
     }
 
+    //TODO: batch mint
+
     function claimTask(
         uint256 _tokenId,
         address _recruiter,
@@ -132,7 +138,13 @@ contract Uplift is ERC721 {
             revert IncompatableStatus();
         }
 
+        //TODO: require deadline
         Task memory task = tasks[_tokenId];
+
+        //user must have sufficient balance of previous work
+        if (balanceOf(msg.sender) < task.minBalance) {
+            revert UnAuthorized();
+        }
 
         //update accounting
         uint256 totalFee = task.contractorBounty + task.recruiterBounty;
