@@ -1,0 +1,76 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea264697066735822122050a786c899c6a868d2ff8bb3d0a80f0822923edde4bd362860cf01caf39519be64736f6c634300080d0033",
+    "sourceMap": "102:20:9:-:0;;;;;;;;;;;;;;;;;;;",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x6080604052600080fdfea264697066735822122050a786c899c6a868d2ff8bb3d0a80f0822923edde4bd362860cf01caf39519be64736f6c634300080d0033",
+    "sourceMap": "102:20:9:-:0;;;;;",
+    "linkReferences": {}
+  },
+  "methodIdentifiers": {},
+  "ast": {
+    "absolutePath": "src/Contract.sol",
+    "id": 23814,
+    "exportedSymbols": {
+      "Contract": [
+        23813
+      ],
+      "ERC721": [
+        23770
+      ],
+      "ERC721TokenReceiver": [
+        23790
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "39:84:9",
+    "nodes": [
+      {
+        "id": 23811,
+        "nodeType": "PragmaDirective",
+        "src": "39:24:9",
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".13"
+        ]
+      },
+      {
+        "id": 23812,
+        "nodeType": "ImportDirective",
+        "src": "65:35:9",
+        "absolutePath": "lib/solmate/src/tokens/ERC721.sol",
+        "file": "solmate/tokens/ERC721.sol",
+        "nameLocation": "-1:-1:-1",
+        "scope": 23814,
+        "sourceUnit": 23791,
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "id": 23813,
+        "nodeType": "ContractDefinition",
+        "src": "102:20:9",
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "Contract",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          23813
+        ],
+        "name": "Contract",
+        "nameLocation": "111:8:9",
+        "scope": 23814,
+        "usedErrors": []
+      }
+    ],
+    "license": "UNLICENSED"
+  },
+  "id": 9
+}
