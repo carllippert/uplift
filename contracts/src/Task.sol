@@ -4,15 +4,17 @@ pragma solidity ^0.8.13;
 import "solmate/tokens/ERC721.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
 
-import { ISuperfluid } from "superfluid/contracts/interfaces/superfluid/ISuperfluid.sol"; //"@superfluid-finance/ethereum-monorepo/packages/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
+import { 
+    ISuperfluid 
+} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
 
-// import {
-//     IConstantFlowAgreementV1
-// } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/IConstantFlowAgreementV1.sol";
+import {
+    IConstantFlowAgreementV1
+} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/IConstantFlowAgreementV1.sol";
 
-// import {
-//     CFAv1Library
-// } from "@superfluid-finance/ethereum-contracts/contracts/apps/CFAv1Library.sol";
+import {
+    CFAv1Library
+} from "@superfluid-finance/ethereum-contracts/contracts/apps/CFAv1Library.sol";
 
 error IncorrectFunds();
 error NonExistantTask();
