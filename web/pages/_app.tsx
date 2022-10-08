@@ -3,7 +3,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { Web3Auth } from "@web3auth/web3auth";
 import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from "@web3auth/base";
-import RPC from "../auth/web3RPC";
+import RPC from "../auth/ethersRPC";
 
 const clientId = process.env.WEB3AUTH_CLIENT_ID || "";
 

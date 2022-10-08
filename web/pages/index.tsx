@@ -1,15 +1,7 @@
-import type { NextPage } from 'next';
-import dynamic from "next/dynamic";
-
-const App = dynamic(
-  () => {
-    return import("./App");
-  },
-  { ssr: false }
-);
+import type { NextPage } from "next";
 
 const Home: NextPage = () => {
-  return <App />;
-}
+  return <div>Hello derp</div>;
+};
 
-export default Home
+export default Home;
