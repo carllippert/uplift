@@ -464,8 +464,8 @@
       }
     },
     "src/Task.sol": {
-      "lastModificationDate": 1665237543053,
-      "contentHash": "66e3fe022dcbc003f41088f21d967be9",
+      "lastModificationDate": 1665241226779,
+      "contentHash": "c7c191a40b38de65595bb1d186a81af9",
       "sourceName": "src/Task.sol",
       "solcConfig": {
         "settings": {
@@ -500,8 +500,8 @@
       ],
       "versionRequirement": "^0.8.13",
       "artifacts": {
-        "Task": {
-          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Task.sol/Task.json"
+        "Uplift": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Task.sol/Uplift.json"
         }
       }
     },

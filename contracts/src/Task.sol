@@ -8,8 +8,9 @@ error IncorrectFunds();
 error NonExistantTask();
 error IncompatableStatus();
 error UnAuthorized();
+error TokenIsSoulbound();
 
-contract Task is ERC721 {
+contract Uplift is ERC721 {
     event TaskClaimed(
         uint256 indexed tokenId,
         address indexed contractor,
@@ -59,7 +60,7 @@ contract Task is ERC721 {
     //initiate the token
     constructor() ERC721(_name, _symbol) {}
 
-     //tokenid -> task struct
+    //tokenid -> task struct
     mapping(uint256 => Task) public tasks;
 
     //employer -> locked funds
@@ -70,7 +71,142 @@ contract Task is ERC721 {
 
     //employer -> cancellable funds
     mapping(address => uint256) public cancellableBalances;
-    
+
+    function mintTask(
+        address _employer,
+        address _creator,
+        uint256 _creatorBounty,
+        uint256 _contractorBounty,
+        uint256 _recruiterBounty,
+        uint256 _deadline,
+        string calldata _tokenURI
+    ) external payable {
+        if (
+            msg.value != (_creatorBounty + _contractorBounty + _recruiterBounty)
+        ) {
+            revert IncorrectFunds();
+        }
+
+        //Create Task
+        tasks[currentTokenId] = Task({
+            employer: _employer,
+            creator: _creator,
+            creatorBounty: _creatorBounty,
+            contractorBounty: _contractorBounty,
+            recruiterBounty: _recruiterBounty,
+            deadline: _deadline,
+            tokenURI: _tokenURI,
+            status: Status.OPEN,
+            contractor: address(0),
+            recruiter: address(0)
+        });
+
+        //Update Accounting
+
+        //creator & network gets paid upfront
+        withdrawableBalances[_creator] = _creatorBounty;
+
+        //unclaimed bounties live in "cancellable"
+        cancellableBalances[_employer] = _contractorBounty + _recruiterBounty;
+
+        _safeMint(_employer, currentTokenId);
+
+        // Counter overflow is incredibly unrealistic.
+        unchecked {
+            currentTokenId++;
+        }
+    }
+
+    function claimTask(
+        uint256 _tokenId,
+        address _recruiter,
+        address _contractor
+    ) external {
+        //token must exist
+        if (_exists(_tokenId) == false) {
+            revert NonExistantTask();
+        }
+
+        //status must be OPEN
+        if (tasks[_tokenId].status != Status.OPEN) {
+            revert IncompatableStatus();
+        }
+
+        Task memory task = tasks[_tokenId];
+
+        //update accounting
+        uint256 totalFee = task.contractorBounty + task.recruiterBounty;
+
+        //transfer bounties from "cancellable" to "escrowed"
+        //remove bounties from cancellable
+        cancellableBalances[task.employer] -= totalFee;
+        //put bounties in escrow
+        escrowedBalances[task.employer] += totalFee;
+
+        //update state
+        task.contractor = _contractor;
+        task.recruiter = _recruiter;
+        task.status = Status.PENDING;
+
+        emit TaskClaimed(_tokenId, _contractor, _recruiter);
+    }
+
+    function closeTask(uint256 _tokenId) external {
+        //token must exist
+        if (_exists(_tokenId) == false) {
+            revert NonExistantTask();
+        }
+
+        Task memory task = tasks[_tokenId];
+
+        //status must be PENDING
+        if (tasks[_tokenId].status != Status.PENDING) {
+            revert IncompatableStatus();
+        }
+
+        if (task.contractor != msg.sender) {
+            revert UnAuthorized();
+        }
+
+        //update accounting
+        uint256 totalFee = task.contractorBounty + task.recruiterBounty;
+
+        //transfer bounties from "escrowed" to "withdrawable"
+
+        //remove bounties from cancellable
+        escrowedBalances[task.employer] -= totalFee;
+
+        //put bounties in withdrawable
+        withdrawableBalances[task.contractor] += task.contractorBounty;
+        withdrawableBalances[task.recruiter] += task.recruiterBounty;
+
+        //update state
+        task.status = Status.CLOSED;
+
+        //Un poco peligroso
+        unchecked {
+            _balanceOf[task.employer]--;
+
+            _balanceOf[task.contractor]++;
+        }
+
+        _ownerOf[_tokenId] = task.contractor;
+
+        emit Transfer(task.employer, task.contractor, _tokenId);
+
+        emit TaskClosed(_tokenId);
+    }
+
+    /// @notice Override token transfers to prevent sending tokens
+    function transferFrom(
+        address,
+        address,
+        uint256
+    ) public pure override {
+        revert TokenIsSoulbound();
+    }
+
+    //TODO: ipfs if we use it.
     function tokenURI(uint256 id)
         public
         view
@@ -79,5 +215,9 @@ contract Task is ERC721 {
         returns (string memory)
     {
         return Strings.toString(id);
+    }
+
+    function _exists(uint256 tokenId) internal view returns (bool) {
+        return _ownerOf[tokenId] != address(0);
     }
 }

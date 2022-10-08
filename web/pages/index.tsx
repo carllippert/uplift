@@ -1,14 +1,11 @@
 import type { NextPage } from "next";
 import Layout from "../components/Layout";
 
-const Home: NextPage = () => {
+import { MUMBAI_CONTRACT_ADDRESS } from "../../contracts/contract_address";
+import { abi } from "../../contracts/out/Task.sol/Task.json";
 
-  return (
-    <Layout>
-      Hello derp
-     
-    </Layout>
-  );
+const Home: NextPage = () => {
+  return <Layout>Hello derp</Layout>;
 };
 
 export default Home;
