@@ -4,17 +4,11 @@ pragma solidity ^0.8.13;
 import "solmate/tokens/ERC721.sol";
 import "openzeppelin-contracts/utils/Strings.sol";
 
-import { 
-    ISuperfluid 
-} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
+import {ISuperfluid} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
 
-import {
-    IConstantFlowAgreementV1
-} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/IConstantFlowAgreementV1.sol";
+import {IConstantFlowAgreementV1} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/IConstantFlowAgreementV1.sol";
 
-import {
-    CFAv1Library
-} from "@superfluid-finance/ethereum-contracts/contracts/apps/CFAv1Library.sol";
+import {CFAv1Library} from "@superfluid-finance/ethereum-contracts/contracts/apps/CFAv1Library.sol";
 
 error IncorrectFunds();
 error NonExistantTask();
@@ -23,6 +17,11 @@ error UnAuthorized();
 error TokenIsSoulbound();
 
 contract Uplift is ERC721 {
+    using CFAv1Library for CFAv1Library.InitData;
+
+    //initialize cfaV1 variable
+    CFAv1Library.InitData public cfaV1;
+
     event TaskClaimed(
         uint256 indexed tokenId,
         address indexed contractor,
@@ -72,7 +71,21 @@ contract Uplift is ERC721 {
     }
 
     //initiate the token
-    constructor() ERC721(_name, _symbol) {}
+    constructor(ISuperfluid host) ERC721(_name, _symbol) {
+        cfaV1 = CFAv1Library.InitData(
+            host,
+            //here, we are deriving the address of the CFA using the host contract
+            IConstantFlowAgreementV1(
+                address(
+                    host.getAgreementClass(
+                        keccak256(
+                            "org.superfluid-finance.agreements.ConstantFlowAgreement.v1"
+                        )
+                    )
+                )
+            )
+        );
+    }
 
     //tokenid -> task struct
     mapping(uint256 => Task) public tasks;
