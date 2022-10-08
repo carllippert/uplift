@@ -9,11 +9,11 @@ error IncorrectFunds();
 error NonExistantTask();
 error IncompatableStatus();
 error InsufficientEDU();
+error IncorrectEDU();
 
 import {ISuperfluid} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
-
+import {ISuperfluidToken} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluidToken.sol";
 import {IConstantFlowAgreementV1} from "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/IConstantFlowAgreementV1.sol";
-
 import {CFAv1Library} from "@superfluid-finance/ethereum-contracts/contracts/apps/CFAv1Library.sol";
 
 contract Uplift is ERC721 {
@@ -22,6 +22,8 @@ contract Uplift is ERC721 {
         address indexed contractor,
         address indexed recruiter
     );
+
+    event StreamUpdated(address indexed contractor, int96 flow);
 
     event TaskUnclaimed(uint256 indexed tokenId);
 
@@ -33,6 +35,14 @@ contract Uplift is ERC721 {
 
     string constant _name = "Uplift";
     string constant _symbol = "LIFT";
+
+    //flow rate is per second. there is an exmaple 
+    int96 constant SALARY_ONE_FLOW_RATE = 1000;
+    int96 constant SALARY_TWO_FLOW_RATE = 2500;
+
+    //Mumbai fDAIx
+    ISuperfluidToken FLOW_TOKEN =
+        ISuperfluidToken(0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f);
 
     //superfluid
     using CFAv1Library for CFAv1Library.InitData;
@@ -108,6 +118,12 @@ contract Uplift is ERC721 {
 
     //employer -> cancellable funds
     mapping(address => uint256) public cancellableBalances;
+
+    //address -> stream state
+    //0 -> no stream
+    //1 -> 1000 stream
+    //2 -> 2500 stream
+    mapping(address => uint256) public incomeStates;
 
     function mintTask(
         address _employer,
@@ -237,6 +253,7 @@ contract Uplift is ERC721 {
         //update state
         task.status = Status.CLOSED;
 
+        //hand baked transfer
         //Un poco peligroso
         unchecked {
             _balanceOf[task.employer]--;
@@ -258,6 +275,42 @@ contract Uplift is ERC721 {
         uint256
     ) public pure override {
         revert TokenIsSoulbound();
+    }
+
+    //TODO: obviously some risk not handled here related to terminated streams
+    //Not worthwhile for hackathon implementation imo
+    //TODO: usefull to implement 712 sig in future or allow admin to initiate streams on behalf of users
+    //for better web2 feel options in UI.
+    function claimSalary() public {
+        //user must have sufficient education badges
+        uint256 edu_balance = eduToken.balanceOf(msg.sender);
+
+        if (edu_balance < 4) {
+            revert IncorrectEDU();
+        }
+
+        if (edu_balance == 4) {
+            createSalary(SALARY_ONE_FLOW_RATE);
+        }
+        if (edu_balance == 5) {
+            createSalary(SALARY_TWO_FLOW_RATE);
+        }
+    }
+
+    function createSalary(int96 flow) internal {
+        if (incomeStates[msg.sender] == 0) {
+            //update state
+            incomeStates[msg.sender] = 1;
+            //create stream
+            cfaV1.createFlow(msg.sender, FLOW_TOKEN, flow);
+        } else {
+            //update state
+            incomeStates[msg.sender] = 2;
+            //update stream
+            cfaV1.updateFlow(msg.sender, FLOW_TOKEN, flow);
+        }
+
+        emit StreamUpdated(msg.sender, flow);
     }
 
     //TODO: ipfs if we use it.
