@@ -35,12 +35,12 @@ contract Uplift is ERC721 {
 
     uint256 public currentTokenId;
 
-    string constant _name = "Uplift";
-    string constant _symbol = "LIFT";
+    string constant _name = "Salto";
+    string constant _symbol = "SALTO";
 
     //flow rate is per second. there is an exmaple
     int96 constant SALARY_ONE_FLOW_RATE = 1000;
-    int96 constant SALARY_TWO_FLOW_RATE = 2500;
+    int96 constant SALARY_TWO_FLOW_RATE = 2000;
 
     //Mumbai fDAIx
     ISuperfluidToken FLOW_TOKEN =
@@ -76,6 +76,8 @@ contract Uplift is ERC721 {
         uint256 deadline;
         //public metadata
         string tokenURI;
+        //short name
+        string name;
         //task status
         Status status;
         //recruiter
@@ -139,6 +141,7 @@ contract Uplift is ERC721 {
         uint256 _deadline,
         uint256 _minBalance,
         uint256 _minEdu,
+        string memory _name,
         string calldata _tokenURI
     ) external payable {
         if (
@@ -156,6 +159,7 @@ contract Uplift is ERC721 {
             recruiterBounty: _recruiterBounty,
             deadline: _deadline,
             tokenURI: _tokenURI,
+            name: _name,
             status: Status.OPEN,
             contractor: address(0),
             recruiter: address(0),
@@ -200,12 +204,12 @@ contract Uplift is ERC721 {
         Task memory task = tasks[_tokenId];
 
         //user must have sufficient balance of previous work
-        if (balanceOf(msg.sender) < task.minBalance) {
+        if (balanceOf(_contractor) < task.minBalance) {
             revert UnAuthorized();
         }
 
         //user must have sufficient education badges
-        if (eduToken.balanceOf(msg.sender) < task.minEdu) {
+        if (eduToken.balanceOf(_contractor) < task.minEdu) {
             revert InsufficientEDU();
         }
 
@@ -239,9 +243,12 @@ contract Uplift is ERC721 {
             revert IncompatableStatus();
         }
 
-        if (task.contractor != msg.sender) {
-            revert UnAuthorized();
-        }
+        //TODO: redo contract with 712 to allow others to call on behalf
+        //had trouble with mocking differnt private keys in foundry so dropped to
+        //expedite hack
+        // if (task.contractor != msg.sender) {
+        //     revert UnAuthorized();
+        // }
 
         //update accounting
         uint256 totalFee = task.contractorBounty + task.recruiterBounty;
@@ -269,7 +276,7 @@ contract Uplift is ERC721 {
         _ownerOf[_tokenId] = task.contractor;
 
         //add timestamp to array
-        (userCloseStamps[msg.sender]).push(block.timestamp);
+        (userCloseStamps[task.contractor]).push(block.timestamp);
 
         emit Transfer(task.employer, task.contractor, _tokenId);
 
@@ -291,50 +298,52 @@ contract Uplift is ERC721 {
     //for better web2 feel options in UI.
     function claimSalary(address user) public {
         //user must have sufficient education badges
-        uint256 edu_balance = eduToken.balanceOf(msg.sender);
+        uint256 edu_balance = eduToken.balanceOf(user);
 
-        if (userCloseStamps[user].length <= 10) {
-            revert NotEnoughWorkHistory();
-        }
+        //TODO: add back
+        // if (userCloseStamps[user].length <= 10) {
+        //     revert NotEnoughWorkHistory();
+        // }
+
         //see that they have done atleast ten tasks in the last month
-        uint256 tenTasksAgoStamp = userCloseStamps[user][
-            userCloseStamps[user].length - 10
-        ];
+        // uint256 tenTasksAgoStamp = userCloseStamps[user][
+        //     userCloseStamps[user].length - 10
+        // ];
 
-        if (tenTasksAgoStamp < block.timestamp - 30 days) {
-            revert NotWorkingEnough();
-        }
+        // if (tenTasksAgoStamp < block.timestamp - 30 days) {
+        //     revert NotWorkingEnough();
+        // }
 
         if (edu_balance < 4) {
             revert IncorrectEDU();
         }
 
         if (edu_balance == 4) {
-            createSalary(SALARY_ONE_FLOW_RATE);
+            createSalary(user, SALARY_ONE_FLOW_RATE);
         }
         if (edu_balance == 5) {
-            createSalary(SALARY_TWO_FLOW_RATE);
+            createSalary(user, SALARY_TWO_FLOW_RATE);
         }
     }
 
-    function createSalary(int96 flow) internal {
-        if (incomeStates[msg.sender] == 0) {
+    function createSalary(address user, int96 flow) internal {
+        if (incomeStates[user] == 0) {
             //update state
-            incomeStates[msg.sender] = 1;
+            incomeStates[user] = 1;
             //create stream
-            cfaV1.createFlow(msg.sender, FLOW_TOKEN, flow);
+            cfaV1.createFlow(user, FLOW_TOKEN, flow);
         } else {
             //update state
-            incomeStates[msg.sender] = 2;
+            incomeStates[user] = 2;
             //update stream
-            cfaV1.updateFlow(msg.sender, FLOW_TOKEN, flow);
+            cfaV1.updateFlow(user, FLOW_TOKEN, flow);
         }
 
-        emit StreamUpdated(msg.sender, flow);
+        emit StreamUpdated(user, flow);
     }
 
     function stopSalary(address user) external {
-        if (userCloseStamps[msg.sender].length <= 10) {
+        if (userCloseStamps[user].length <= 10) {
             revert NotEnoughWorkHistory();
         }
         //see that they have done atleast ten tasks in the last month
@@ -345,9 +354,13 @@ contract Uplift is ERC721 {
         //if not done 10 things in last 30 days.
         if (tenTasksAgoStamp < block.timestamp - 30 days) {
             cfaV1.deleteFlow(address(this), user, FLOW_TOKEN);
-        }
+        }   
 
         emit StreamUpdated(user, 0);
+    }
+
+    function getTask(uint256 _tokenId) public view returns (Task memory) {
+        return tasks[_tokenId];
     }
 
     //TODO: ipfs if we use it.

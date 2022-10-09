@@ -7,6 +7,11 @@ contract TaskTest is Test {
     function setUp() public {}
 
     function testExample() public {
-        assertTrue(true);
+       
+    vm.startBroadcast();
+    
+
+    vm.stopBroadcast(); 
+
     }
 }

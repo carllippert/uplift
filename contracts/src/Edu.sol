@@ -10,7 +10,7 @@ error TokenIsSoulbound();
 contract EDU is ERC721 {
     uint256 public currentTokenId;
 
-    string constant _name = "Uplift EDU";
+    string constant _name = "Salto EDU";
     string constant _symbol = "EDU";
 
     address internal immutable UPLIFT;
