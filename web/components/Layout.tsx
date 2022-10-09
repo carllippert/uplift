@@ -12,7 +12,7 @@ const Layout = ({ children }: { children: any }) => {
         <link rel="icon" href="/favicon_io/favicon.ico" />
       </Head>
 
-      <div className="h-screen">
+      <div className="min-h-screen">
         <Header />
         {children}
       </div>

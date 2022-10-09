@@ -10,7 +10,7 @@ import { useState } from "react";
 import CoursesOn101 from "../components/CoursesOn101";
 const EDU_NFT_ADDRESS = "0x81Ab35cb4FbE92383aa5279B91dD6E9a49cc4676";
 
-const Test: NextPage = () => {
+const Learn: NextPage = () => {
   const [educatorSelected, setEducatorSelected] = useState(false);
   const STEPS = ["Starter", "Basic", "Intermediate", "Advanced", "Senior"];
   return (
@@ -64,10 +64,10 @@ const Test: NextPage = () => {
             </svg>
           </button>
         </div>
-        <CoursesOn101/>
       </div>
+      {educatorSelected && <CoursesOn101 />}
     </Layout>
   );
 };
 
-export default Test;
+export default Learn;
