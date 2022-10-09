@@ -7,12 +7,8 @@ const Profile = () => {
   const { config } = usePrepareContractWrite({
     addressOrName: "0x4D63061Cf9d4faB1a397a7A35c07BFEd455C14Fd",
     contractInterface: abi.abi,
-    functionName: "claimTask",
-    args: [
-      "1",
-      "0x2BfC102290Bc92767B290B60fdfeCa120058ECD0",
-      "0x2BfC102290Bc92767B290B60fdfeCa120058ECD0",
-    ],
+    functionName: "claimSalary",
+    args: "0x2BfC102290Bc92767B290B60fdfeCa120058ECD0",
   });
 
   const { data, isLoading, isSuccess, write } = useContractWrite(config);
@@ -23,9 +19,16 @@ const Profile = () => {
 
   return (
     <Layout>
-      <main className="mx-auto mt-16 max-w-7xl px-4 sm:mt-24">
-        <Button onClick={claimStream}>Your Employable! Claim Stream!</Button>
+      <main className="mt-60 pl-60 ml-60 mx-auto max-w-7xl">
+        <Button
+          className="bg-green-500 h-22 w-1/2 text-2xl "
+          onClick={claimStream}
+        >
+          Your Employable! Claim Stream!
+        </Button>
       </main>
     </Layout>
   );
 };
+
+export default Profile;

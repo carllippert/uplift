@@ -1,4 +1,6 @@
 import type { NextPage } from "next";
+import Link from "next/link";
+import { Button } from "../components/Button";
 import Layout from "../components/Layout";
 // import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 // import { ChevronRightIcon } from "@heroicons/react/20/solid";
@@ -23,20 +25,24 @@ const Home: NextPage = () => {
           </p>
           <div className="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
             <div className="rounded-md shadow">
-              <a
+              <Link
                 href="/learn"
-                className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-lg"
+                // className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-lg"
               >
-                Learn
-              </a>
+                <button className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-lg">
+                  Learn
+                </button>
+              </Link>
             </div>
             <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-              <a
+              <Link
                 href="/earn"
-                className="flex w-full items-center justify-center rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-indigo-600 hover:bg-gray-50 md:py-4 md:px-10 md:text-lg"
+                // className="flex w-full items-center justify-center rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-indigo-600 hover:bg-gray-50 md:py-4 md:px-10 md:text-lg"
               >
-                Earn
-              </a>
+                <button className="flex w-full items-center justify-center rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-indigo-600 hover:bg-gray-50 md:py-4 md:px-10 md:text-lg">
+                  Earn
+                </button>
+              </Link>
             </div>
           </div>
         </div>

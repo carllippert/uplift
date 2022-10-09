@@ -21,8 +21,7 @@ import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { AppContextProvider } from "../context/AppContext";
 
 const { chains, provider } = configureChains(
-
-  [chain.mainnet, chain.polygon, chain.goerli],
+  [chain.polygonMumbai],
   [publicProvider()]
 );
 

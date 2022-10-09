@@ -3,6 +3,7 @@ import { useAccount, useContractReads } from "wagmi";
 import { CourseViewer } from "@101xyz/course-viewer";
 import Badges from "./Badges.json";
 import CourseCard101 from "./CourseCard101";
+import Link from "next/link";
 
 const COURSES: {
   courseId: string;
@@ -62,7 +63,14 @@ const CoursesOn101 = () => {
         ))}
       </div>
       <div className="w-full flex">
-        <button className="btn btn-secondary my-8 mx-auto min-w-[15em]" disabled={!allComplete}>Continue</button>
+        <Link href="/earn">
+          <button
+            className="btn btn-secondary my-8 mx-auto min-w-[15em]"
+            disabled={!allComplete}
+          >
+            Continue
+          </button>
+        </Link>
       </div>
     </>
   );

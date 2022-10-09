@@ -119,7 +119,8 @@ export function Header() {
       <div className="w-full bg-[#7752DF] h-12 mb-2 flex">
         <div className="m-auto h-[1.5em]">
           <p className="text-center text-white">
-            <span className=" italic">Powered by</span> Superfluid, Push Protocol, Wallet Connect, Web3Auth, Coinbase Wallet, ENS
+            <span className=" italic">Powered by</span> Superfluid, Push
+            Protocol, Wallet Connect, Web3Auth, Coinbase Wallet, ENS
           </p>
         </div>
       </div>
@@ -130,7 +131,7 @@ export function Header() {
               <Logo />
             </Link>
             <div className="hidden md:flex md:gap-x-6">
-              <NavLink href="leran">Learn</NavLink>
+              <NavLink href="learn">Learn</NavLink>
               <NavLink href="earn">Earn</NavLink>
               <NavLink href="profile">Profile</NavLink>
             </div>
@@ -143,8 +144,14 @@ export function Header() {
                   className="rounded-md bg-slate-800 text-white p-2 flex flex-row"
                   onClick={() => disconnect()}
                 >
-                  {ensImageData && <img className="rounded-full w-8 mr-2" src={ensImageData} />}
-                  <div className="m-auto">{ensNameData ? ensNameData : address?.slice(0, 4) + '...' + address?.slice(-4)}</div>
+                  {ensImageData && (
+                    <img className="rounded-full w-8 mr-2" src={ensImageData} />
+                  )}
+                  <div className="m-auto">
+                    {ensNameData
+                      ? ensNameData
+                      : address?.slice(0, 4) + "..." + address?.slice(-4)}
+                  </div>
                 </div>
               ) : (
                 <ConnectButton />
