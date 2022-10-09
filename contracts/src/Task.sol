@@ -204,12 +204,12 @@ contract Uplift is ERC721 {
         Task memory task = tasks[_tokenId];
 
         //user must have sufficient balance of previous work
-        if (balanceOf(msg.sender) < task.minBalance) {
+        if (balanceOf(_contractor) < task.minBalance) {
             revert UnAuthorized();
         }
 
         //user must have sufficient education badges
-        if (eduToken.balanceOf(msg.sender) < task.minEdu) {
+        if (eduToken.balanceOf(_contractor) < task.minEdu) {
             revert InsufficientEDU();
         }
 
