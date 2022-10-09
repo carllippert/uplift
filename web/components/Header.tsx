@@ -2,11 +2,13 @@ import { Fragment } from "react";
 import Link from "next/link";
 import { Popover, Transition } from "@headlessui/react";
 import clsx from "clsx";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 import Logo from "./Logo";
 import { NavLink } from "./Navlink";
 import { Button } from "./Button";
 import { useAppContext } from "../context/AppContext";
+import { useAccount, useDisconnect, useEnsAvatar, useEnsName } from "wagmi";
 
 export function Container({ className, ...props }: any) {
   return (
@@ -101,12 +103,28 @@ function MobileNavigation() {
 }
 
 export function Header() {
-  const { login } = useAppContext();
+  const { address, isConnected } = useAccount();
+  const { data: ensNameData, isLoading: ensNameIsLoading } = useEnsName({
+    address,
+    enabled: isConnected,
+  });
+  const { data: ensImageData, isLoading: ensImageIsLoading } = useEnsAvatar({
+    addressOrName: address,
+    enabled: isConnected,
+  });
+  const { disconnect } = useDisconnect();
 
   return (
-    <header className="py-5 bg-base-200">
+    <header className="pb-2">
+      <div className="w-full bg-[#7752DF] h-12 mb-2 flex">
+        <div className="m-auto h-[1.5em]">
+          <p className="text-center text-white">
+            <span className=" italic">Powered by</span> Superfluid, Push Protocol, Wallet Connect, Web3Auth, Coinbase Wallet, ENS
+          </p>
+        </div>
+      </div>
       <Container>
-        <nav className="relative z-50 flex justify-between">
+        <nav className="relative z-11 flex justify-between">
           <div className="flex items-center md:gap-x-12">
             <Link href="#" aria-label="Home">
               <Logo />
@@ -120,7 +138,17 @@ export function Header() {
           <div className="flex items-center gap-x-5 md:gap-x-8">
             <div className="hidden sm:block">
               {/* <NavLink href="/login">Sign in</NavLink> */}
-              <Button onClick={login}>Connect</Button>
+              {address ? (
+                <div
+                  className="rounded-md bg-slate-800 text-white p-2 flex flex-row"
+                  onClick={() => disconnect()}
+                >
+                  {ensImageData && <img className="rounded-full w-8 mr-2" src={ensImageData} />}
+                  <div className="m-auto">{ensNameData ? ensNameData : address?.slice(0, 4) + '...' + address?.slice(-4)}</div>
+                </div>
+              ) : (
+                <ConnectButton />
+              )}
             </div>
             <div className="-mr-1 sm:hidden">
               <MobileNavigation />

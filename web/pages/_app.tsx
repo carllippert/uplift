@@ -1,6 +1,14 @@
+import "@rainbow-me/rainbowkit/styles.css";
 import { useState, useEffect } from "react";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
+import {
+  ConnectButton,
+  connectorsForWallets,
+  RainbowKitProvider,
+  getDefaultWallets,
+} from "@rainbow-me/rainbowkit";
+
 import { Web3Auth } from "@web3auth/web3auth";
 import { CHAIN_NAMESPACES, SafeEventEmitterProvider } from "@web3auth/base";
 // import RPC from "../auth/ethersRPC";
@@ -13,17 +21,23 @@ import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { AppContextProvider } from "../context/AppContext";
 
 const { chains, provider } = configureChains(
-  [chain.polygonMumbai],
+
+  [chain.mainnet, chain.polygon, chain.goerli],
   [publicProvider()]
 );
 
-const clientId = "BMZAN4xtqw6iHeAzVwELqdeNonoKV8Q0A3RPRiPpCJNbjmOs8kvaf87Xm2xPK5RskZxHtHos2GalvVXL"
+const wallets = getDefaultWallets({ appName: "OnboardingFrens", chains });
 
-const wagmiClient = createClient({
-  autoConnect: true,
-  connectors: [
-    new Web3AuthConnector({
-      chains,
+const clientId = process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID || "";
+
+const rainbowWeb3AuthConnector = ({ chains }: { chains: any }) => ({
+  id: "web3auth",
+  name: "Web3Auth",
+  iconUrl: "https://web3auth.io/images/w3a-L-Favicon-1.svg",
+  iconBackground: "#fff",
+  createConnector: () => {
+    const connector = new Web3AuthConnector({
+      chains: chains,
       options: {
         enableLogging: true,
         clientId, // Get your own client id from https://dashboard.web3auth.io
@@ -31,9 +45,22 @@ const wagmiClient = createClient({
         chainId: "0x1", // chainId that you want to connect with
         socialLoginConfig: {},
       },
-    }),
-    new InjectedConnector({ chains }),
-  ],
+    });
+    return {
+      connector,
+    };
+  },
+});
+
+const connectors = connectorsForWallets([
+  ...wallets.wallets,
+  {
+    groupName: "Recommended",
+    wallets: [rainbowWeb3AuthConnector({ chains })],
+  },
+]);
+const wagmiClient = createClient({
+  connectors,
   provider,
 });
 
@@ -158,7 +185,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AppContextProvider>
       <WagmiConfig client={wagmiClient}>
-        <Component {...pageProps} />
+        <RainbowKitProvider chains={chains}>
+          <Component {...pageProps} />
+        </RainbowKitProvider>
       </WagmiConfig>
     </AppContextProvider>
   );
