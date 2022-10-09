@@ -1062,8 +1062,8 @@
       }
     },
     "script/Contract.s.sol": {
-      "lastModificationDate": 1665237531636,
-      "contentHash": "76e3a00700f6d9faa4c68975532a2e2f",
+      "lastModificationDate": 1665283347052,
+      "contentHash": "c96e85936d5859d8b20a097e5a766141",
       "sourceName": "script/Contract.s.sol",
       "solcConfig": {
         "settings": {
@@ -1096,7 +1096,26 @@
         "lib/forge-std/src/StdJson.sol",
         "lib/forge-std/src/Vm.sol",
         "lib/forge-std/src/console.sol",
-        "lib/forge-std/src/console2.sol"
+        "lib/forge-std/src/console2.sol",
+        "lib/openzeppelin-contracts/contracts/utils/Strings.sol",
+        "lib/openzeppelin-contracts/contracts/utils/math/Math.sol",
+        "lib/solmate/src/tokens/ERC721.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC777/IERC777.sol",
+        "node_modules/@superfluid-finance/ethereum-contracts/contracts/apps/CFAv1Library.sol",
+        "node_modules/@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/IConstantFlowAgreementV1.sol",
+        "node_modules/@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/Definitions.sol",
+        "node_modules/@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperAgreement.sol",
+        "node_modules/@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperApp.sol",
+        "node_modules/@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperToken.sol",
+        "node_modules/@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperTokenFactory.sol",
+        "node_modules/@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol",
+        "node_modules/@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluidGovernance.sol",
+        "node_modules/@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluidToken.sol",
+        "node_modules/@superfluid-finance/ethereum-contracts/contracts/interfaces/tokens/ERC20WithTokenInfo.sol",
+        "node_modules/@superfluid-finance/ethereum-contracts/contracts/interfaces/tokens/TokenInfo.sol",
+        "src/Edu.sol",
+        "src/Task.sol"
       ],
       "versionRequirement": "^0.8.13",
       "artifacts": {
@@ -1148,8 +1167,8 @@
       }
     },
     "src/Task.sol": {
-      "lastModificationDate": 1665271635411,
-      "contentHash": "b6891c79a5b63f9f36f8d79011f244a1",
+      "lastModificationDate": 1665283110374,
+      "contentHash": "c60677b7ed75d8307a99675d1e43029a",
       "sourceName": "src/Task.sol",
       "solcConfig": {
         "settings": {

@@ -76,6 +76,8 @@ contract Uplift is ERC721 {
         uint256 deadline;
         //public metadata
         string tokenURI;
+        //short name
+        string name;
         //task status
         Status status;
         //recruiter
@@ -139,6 +141,7 @@ contract Uplift is ERC721 {
         uint256 _deadline,
         uint256 _minBalance,
         uint256 _minEdu,
+        string memory _name,
         string calldata _tokenURI
     ) external payable {
         if (
@@ -156,6 +159,7 @@ contract Uplift is ERC721 {
             recruiterBounty: _recruiterBounty,
             deadline: _deadline,
             tokenURI: _tokenURI,
+            name: _name,
             status: Status.OPEN,
             contractor: address(0),
             recruiter: address(0),
