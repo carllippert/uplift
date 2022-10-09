@@ -1061,10 +1061,10 @@
         }
       }
     },
-    "script/Contract.s.sol": {
-      "lastModificationDate": 1665290576091,
-      "contentHash": "248a642ab6ccb9b22fefb8b11d713b94",
-      "sourceName": "script/Contract.s.sol",
+    "script/Go.s.sol": {
+      "lastModificationDate": 1665313755658,
+      "contentHash": "5d709075350ee2cfa9cc76a478d8c2e7",
+      "sourceName": "script/Go.s.sol",
       "solcConfig": {
         "settings": {
           "optimizer": {
@@ -1119,14 +1119,14 @@
       ],
       "versionRequirement": "^0.8.13",
       "artifacts": {
-        "TaskScript": {
-          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Contract.s.sol/TaskScript.json"
+        "ContractScript": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Go.s.sol/ContractScript.json"
         }
       }
     },
     "src/Edu.sol": {
-      "lastModificationDate": 1665264843326,
-      "contentHash": "b8f134c70e70ff85feff6d5101a44e49",
+      "lastModificationDate": 1665312720481,
+      "contentHash": "8287006a026a3451e4ce4829a30fb6e8",
       "sourceName": "src/Edu.sol",
       "solcConfig": {
         "settings": {
@@ -1167,8 +1167,8 @@
       }
     },
     "src/Task.sol": {
-      "lastModificationDate": 1665289546225,
-      "contentHash": "6f9951402f5626eed0627378b98c3417",
+      "lastModificationDate": 1665313913066,
+      "contentHash": "ee19d390153a71c44a69208e6e10d254",
       "sourceName": "src/Task.sol",
       "solcConfig": {
         "settings": {
@@ -1224,8 +1224,8 @@
       }
     },
     "test/Task.t.sol": {
-      "lastModificationDate": 1665237550382,
-      "contentHash": "605c547ef82182ea9fa3832e5b653f73",
+      "lastModificationDate": 1665309735547,
+      "contentHash": "e33f683c999b1633e1116a8bd0127ae6",
       "sourceName": "test/Task.t.sol",
       "solcConfig": {
         "settings": {

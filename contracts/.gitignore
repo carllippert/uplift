@@ -1,4 +1,3 @@
 .env*.local
 Makefile
 node_modules
-script

@@ -13,7 +13,7 @@ import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { AppContextProvider } from "../context/AppContext";
 
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon],
+  [chain.polygonMumbai],
   [publicProvider()]
 );
 
@@ -38,10 +38,10 @@ const wagmiClient = createClient({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [web3auth, setWeb3auth] = useState<Web3Auth | null>(null);
-  const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(
-    null
-  );
+  // const [web3auth, setWeb3auth] = useState<Web3Auth | null>(null);
+  // const [provider, setProvider] = useState<SafeEventEmitterProvider | null>(
+  //   null
+  // );
 
   // useEffect(() => {
   //   const init = async () => {

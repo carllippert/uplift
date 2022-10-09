@@ -112,9 +112,9 @@ export function Header() {
               <Logo />
             </Link>
             <div className="hidden md:flex md:gap-x-6">
-              <NavLink href="#features">Features</NavLink>
-              <NavLink href="#testimonials">Testimonials</NavLink>
-              {/* <NavLink href="#pricing">Pricing</NavLink> */}
+              <NavLink href="leran">Learn</NavLink>
+              <NavLink href="earn">Earn</NavLink>
+              <NavLink href="profile">Profile</NavLink>
             </div>
           </div>
           <div className="flex items-center gap-x-5 md:gap-x-8">

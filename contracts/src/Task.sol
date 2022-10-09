@@ -35,8 +35,8 @@ contract Uplift is ERC721 {
 
     uint256 public currentTokenId;
 
-    string constant _name = "Uplift";
-    string constant _symbol = "LIFT";
+    string constant _name = "Salto";
+    string constant _symbol = "SALTO";
 
     //flow rate is per second. there is an exmaple
     int96 constant SALARY_ONE_FLOW_RATE = 1;
@@ -319,10 +319,10 @@ contract Uplift is ERC721 {
         }
 
         if (edu_balance == 4) {
-            createSalary(SALARY_ONE_FLOW_RATE);
+            createSalary(user, SALARY_ONE_FLOW_RATE);
         }
         if (edu_balance == 5) {
-            createSalary(SALARY_TWO_FLOW_RATE);
+            createSalary(user, SALARY_TWO_FLOW_RATE);
         }
     }
 
@@ -354,9 +354,13 @@ contract Uplift is ERC721 {
         //if not done 10 things in last 30 days.
         if (tenTasksAgoStamp < block.timestamp - 30 days) {
             cfaV1.deleteFlow(address(this), user, FLOW_TOKEN);
-        }
+        }   
 
         emit StreamUpdated(user, 0);
+    }
+
+    function getTask(uint256 _tokenId) public view returns (Task memory) {
+        return tasks[_tokenId];
     }
 
     //TODO: ipfs if we use it.
