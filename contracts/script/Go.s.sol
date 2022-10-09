@@ -27,7 +27,7 @@ contract ContractScript is Script {
         EDU edu = new EDU();
         Uplift task = new Uplift(address(edu), host);
 
-        for (uint256 i = 0; i < 5; i++) {
+        for (uint256 i = 0; i < 10; i++) {
             task.mintTask(
                 FLASH_GORDON, //_employer
                 FLASH_GORDON, //_creator,
@@ -43,7 +43,7 @@ contract ContractScript is Script {
         }
         
         for (uint256 i = 0; i < 5; i++) {
-            edu.mintTo(GET_A_JOB);
+            edu.mintTo(FLASH_GORDON);
         }
 
         vm.stopBroadcast();

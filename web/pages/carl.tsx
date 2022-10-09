@@ -5,7 +5,6 @@ import abi from "../../contracts/out/Task.sol/Task.json";
 import { useEffect } from "react";
 
 const Carl = () => {
-  
   const { data, isError, isLoading, error } = useContractRead({
     addressOrName: "0x652bF01c301140d047201E88483808c96C58170D",
     contractInterface: abi.abi,

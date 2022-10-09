@@ -39,8 +39,8 @@ contract Uplift is ERC721 {
     string constant _symbol = "SALTO";
 
     //flow rate is per second. there is an exmaple
-    int96 constant SALARY_ONE_FLOW_RATE = 1;
-    int96 constant SALARY_TWO_FLOW_RATE = 2;
+    int96 constant SALARY_ONE_FLOW_RATE = 1000;
+    int96 constant SALARY_TWO_FLOW_RATE = 2000;
 
     //Mumbai fDAIx
     ISuperfluidToken FLOW_TOKEN =

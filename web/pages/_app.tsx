@@ -17,7 +17,7 @@ const { chains, provider } = configureChains(
   [publicProvider()]
 );
 
-const clientId = process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID || "";
+const clientId = "BMZAN4xtqw6iHeAzVwELqdeNonoKV8Q0A3RPRiPpCJNbjmOs8kvaf87Xm2xPK5RskZxHtHos2GalvVXL"
 
 const wagmiClient = createClient({
   autoConnect: true,

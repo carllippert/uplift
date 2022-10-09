@@ -1062,8 +1062,8 @@
       }
     },
     "script/Go.s.sol": {
-      "lastModificationDate": 1665313755658,
-      "contentHash": "5d709075350ee2cfa9cc76a478d8c2e7",
+      "lastModificationDate": 1665320082112,
+      "contentHash": "abc6feda87494bbb1def49b1572a5c6a",
       "sourceName": "script/Go.s.sol",
       "solcConfig": {
         "settings": {
@@ -1167,8 +1167,8 @@
       }
     },
     "src/Task.sol": {
-      "lastModificationDate": 1665313913066,
-      "contentHash": "ee19d390153a71c44a69208e6e10d254",
+      "lastModificationDate": 1665320110059,
+      "contentHash": "5f4b162027e4e92306299be43a012087",
       "sourceName": "src/Task.sol",
       "solcConfig": {
         "settings": {
